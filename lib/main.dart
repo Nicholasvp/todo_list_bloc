@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list_bloc/core/database/database_repository.dart';
 import 'package:todo_list_bloc/modules/home/bloc/cubit/home_cubit.dart';
-import 'package:todo_list_bloc/modules/home/bloc/state/home_state.dart';
 import 'package:todo_list_bloc/modules/home/page/home_page.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => HomeCubit(HomeInitialState()),
+          create: (context) => HomeCubit(databaseRepository: DatabaseRepository()),
         ),
       ],
       child: MaterialApp(

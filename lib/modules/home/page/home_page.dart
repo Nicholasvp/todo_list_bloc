@@ -3,8 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list_bloc/modules/home/bloc/cubit/home_cubit.dart';
 import 'package:todo_list_bloc/modules/home/bloc/state/home_state.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    final cubit = BlocProvider.of<HomeCubit>(context);
+    cubit.loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

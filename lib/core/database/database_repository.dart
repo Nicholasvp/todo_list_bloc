@@ -1,20 +1,21 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseRepository {
-  void saveData(List<String> todos) async {
+  Future<void> saveData(List<String> todos) async {
     final prefs = await SharedPreferences.getInstance();
 
-    for (var i = 0; i < todos.length; i++) {
-      prefs.setString('$i', todos[i]);
+    bool res = await prefs.setStringList('todos', todos);
+    if (!res) {
+      throw Exception('Failed to save data');
     }
   }
 
   Future<List<String>> loadData() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList('todo') ?? [];
+    return prefs.getStringList('todos') ?? [];
   }
 
-  void removeData(String key) async {
+  Future<void> removeData(String key) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(key);
   }

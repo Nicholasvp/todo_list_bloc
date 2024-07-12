@@ -6,24 +6,22 @@ import 'package:todo_list_bloc/core/database/database_repository.dart';
 import 'package:todo_list_bloc/modules/home/bloc/state/home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(
-    this.databaseRepository,
-    super.initialState,
-  );
+  HomeCubit({
+    required this.databaseRepository,
+  }) : super(
+          HomeInitialState(),
+        );
 
   final DatabaseRepository databaseRepository;
 
-  addItem() async {
-    final items = state.items;
-    final item = state.textEditingController.text;
-    emit(HomeLoadingState(
-      items: items,
-      textEditingController: state.textEditingController,
-    ));
-    await Future.delayed(const Duration(milliseconds: 200));
-
-    items.add(item);
-    state.textEditingController.clear();
+  Future<void> loadData() async {
+    final items = await databaseRepository.loadData();
+    if (items.isEmpty) {
+      emit(
+        HomeInitialState(),
+      );
+      return;
+    }
     emit(
       HomeLoadedState(
         items: items,
@@ -32,9 +30,22 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  deleteItem(int index) {
+  addItem() async {
+    final items = state.items;
+    items.add(state.textEditingController.text);
+    emit(
+      HomeLoadedState(
+        items: items,
+        textEditingController: state.textEditingController,
+      ),
+    );
+    await databaseRepository.saveData(items);
+  }
+
+  deleteItem(int index) async {
     final items = state.items;
     items.removeAt(index);
+    await databaseRepository.saveData(items);
     if (items.isEmpty) {
       emit(
         HomeInitialState(),
@@ -69,15 +80,18 @@ class HomeCubit extends Cubit<HomeState> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 items[index] = textEditingController.text;
+                await databaseRepository.saveData(items);
                 emit(
                   HomeLoadedState(
                     items: items,
                     textEditingController: state.textEditingController,
                   ),
                 );
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
               child: const Text('Save'),
             ),
