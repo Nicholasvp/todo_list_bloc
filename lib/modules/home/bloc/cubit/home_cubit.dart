@@ -33,13 +33,14 @@ class HomeCubit extends Cubit<HomeState> {
   addItem() async {
     final items = state.items;
     items.add(state.textEditingController.text);
+    await databaseRepository.saveData(items);
+    state.textEditingController.clear();
     emit(
       HomeLoadedState(
         items: items,
         textEditingController: state.textEditingController,
       ),
     );
-    await databaseRepository.saveData(items);
   }
 
   deleteItem(int index) async {
