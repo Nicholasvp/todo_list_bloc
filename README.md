@@ -1,16 +1,30 @@
-# todo_list_bloc
+# Todo List App
+A simple and efficient Todo List application built with Flutter. This app uses BLoC (Business Logic Component) for state management and Shared Preferences for local storage. It allows users to create, read, update, and delete (CRUD) tasks, as well as mark tasks as completed.
 
-A new Flutter project.
+## Features
+- Create Task: Add new tasks to your todo list.
+ - Read Task: View all your tasks in one place.
+ - Update Task: Edit existing tasks.
+ - Delete Task: Remove tasks that are no longer needed.
+ - Mark as Completed: Mark tasks as completed to keep track of your progress.
+ - Local Storage: Save tasks locally using Shared Preferences, ensuring that your data persists across app restarts.
 
-## Getting Started
+## Usage
+### Creating a Task:
 
-This project is a starting point for a Flutter application.
+Tap the "Add" button.
+Enter task details and save
+.
+### Viewing Tasks:
 
-A few resources to get you started if this is your first Flutter project:
+All tasks are displayed on the main screen.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Editing a Task:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Tap on the icon you want to edit.
+Update the details and save.
+
+
+### Marking as Completed:
+
+Tap the icon to the task to mark it as completed.
